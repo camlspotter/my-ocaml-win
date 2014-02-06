@@ -17,19 +17,23 @@ default:
 	@echo "       to bootstrap, build, and install everything"
 	@exit 1
 
+EXE=.exe
+
 bootstrap: boot/Makefile
-	@cd boot; $(MAKE) Makefile.dep; $(MAKE) omake
-	@ln -sf boot/omake omake-boot
+	@cd boot; $(MAKE) Makefile.dep; $(MAKE) omake$(EXE)
+	# @ln -sf boot/omake omake-boot
+	@cp boot/omake omake-boot
 
 boot/Makefile: src/Makefile
 	mkdir -p boot
 	@touch boot/Makefile.dep
 	@sleep 1
-	ln -sf ../src/Makefile boot/Makefile
+	# ln -sf ../src/Makefile boot/Makefile
+	cp src/Makefile boot/Makefile
 
 all: bootstrap
 	touch .config
-	OMAKEFLAGS= OMAKEPATH=lib ./omake-boot --dotomake .omake --force-dotomake -j2 main
+	OMAKEFLAGS= OMAKEPATH=lib ./omake-boot --dotomake .omake --force-dotomake -j2 main src/main/osh.exe
 	OMAKEFLAGS= OMAKEPATH=lib src/main/omake --dotomake .omake --force-dotomake -j2 all
 
 install: all

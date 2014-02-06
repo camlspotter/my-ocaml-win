@@ -14,7 +14,15 @@ OMAKEPATH[] =
 #
 # Include the standard configuration
 #
-include build/C
+OSTYPE= Cygwin
+open build/Common
+EXT_LIB = .a
+EXT_OBJ = .o
+EXE = .exe
+open build/C
+CC = i686-w64-mingw32-gcc
+public.AR(name) =
+  return(i686-w64-mingw32-ar cq $(name))
 include build/OCaml
 include build/LaTeX
 
@@ -28,6 +36,9 @@ include boot/Default
 # Include configuration utilities
 #
 include configure/Configure
+
+OSTYPE = Win32
+TOOLCHAIN = MinGW
 
 #
 # Include the OMakefile

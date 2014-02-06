@@ -7,32 +7,36 @@
 #
 # System config
 #
-LN = ln -sf
+# LN = ln -sf
+LN = cp
 RM = rm -f
 DOT = ./
 slash = /
 
-win32 = unix
-system = null
+OCAMLLIB_CYGWIN=/cygdrive/c/OCaml/lib
+# win32 = unix
+win32 = win32
+# system = null
+system = system
 
 #
 # C configuration
 #
-CC = cc
-CFLAGS =
-AR = ar cq
+CC = i686-w64-mingw32-gcc
+CFLAGS = -DFAM_ENABLED -DFAM_PSEUDO -I$(OCAMLLIB_CYGWIN)
+AR = i686-w64-mingw32-ar cq
 AROUT =
 EXT_OBJ = .o
 EXT_LIB = .a
-EXE =
+EXE = .exe
 
-OCAMLFLAGS = -g
-THREADSLIB =
+OCAMLFLAGS = -thread -g -verbose
+THREADSLIB = threads.cma
 
 .SUFFIXES: .mll .mly .mli .ml .c .cmi .cmo .cma .o
 
 .c.o:
-	$(CC) $(CFLAGS) -I"`ocamlc -where`" -c $*.c
+	$(CC) $(CFLAGS) -c $*.c
 
 
 #
